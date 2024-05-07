@@ -6,11 +6,17 @@ import { Button, Text, TextInput } from "react-native-paper";
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [error, setError] = useState("");
 
-  // realizar de lógica de login
-  // verificando se o email foi digitado
-  // verificando se a senha foi digitada
 
+  const handleLogin = () => {
+    if (!email || !senha) {
+      setError("Todos os campos devem ser preenchidos");
+      return;
+    }
+    
+    navigation.navigate("HomeScreen");
+  };
   return (
     <View style={styles.container}>
       <View style={styles.container_inner}>
@@ -28,9 +34,10 @@ export default function LoginScreen({ navigation }) {
           onChangeText={setSenha}
           secureTextEntry // Para esconder a senha
         />
-        <Button mode="contained">Login</Button>
+        <Button mode="contained"  onPress={handleLogin}>Login</Button>
+        <Text style={{ color: "red" }}>{error}</Text>
         <Button
-            onPress={()=>navigation.navigate("RegisterScreen")}
+          onPress={() => navigation.navigate("RegisterScreen")}
         >Fazer Cadastro</Button>
       </View>
     </View>

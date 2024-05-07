@@ -3,14 +3,24 @@ import { styles } from "../config/styles";
 import { useState } from "react";
 import { Button, Text, TextInput } from "react-native-paper";
 
-export default function RegisterScreen() {
+export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [repetirSenha, setRepetirSenha] = useState("");
+  const [error, setError] = useState("")
 
-  // realizar de lógica de login
-  // verificando se o email foi digitado
-  // verificando se a senha foi digitada
+  const handleRegister = () => {
+    if (!email || !senha || !repetirSenha) {
+      setError("Todos os campos devem ser preenchidos");
+      return;
+    }
+    if (senha !== repetirSenha) {
+      setError("As senhas não coincidem");
+      return;
+    }
+    
+    navigation.navigate("HomeScreen");
+  };
 
   return (
     <View style={styles.container}>
@@ -37,7 +47,8 @@ export default function RegisterScreen() {
           secureTextEntry // Para esconder a senha
         />
         <Button mode="contained">Login</Button>
-        <Button>Fazer Cadastro</Button>
+        <Button onPress={handleRegister}>Fazer Cadastro</Button>
+        <Text style={{ color: "red" }}>{error}</Text>
       </View>
     </View>
   );
